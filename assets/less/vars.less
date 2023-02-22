@@ -1,0 +1,46 @@
+//grid
+
+@spacer: 16px;
+@spacerMd: 10px;
+@spacerSm: 10px;
+@columnCount: 12;
+@baseWidth: 100% / @columnCount;
+@siteWidth: 1280px;
+
+@containerPadding: 64px;
+@containerPaddingMd: 32px;
+@containerPaddingSm: 16px;
+//breakpoints
+
+@large: 1600px;
+@largeStart: @medium + 1px;
+
+@medium: 768px;
+@mediumStart: @small + 1px;
+
+@small: 450px;
+
+@sm: ~'screen and (max-width: @{small} )';
+@md: ~'screen and (max-width: @{medium} )';
+@notsm: ~'screen and (min-width: @{mediumStart} )';
+@supersm: ~'screen and (max-width: 449px )';
+// z-index
+@mainZ: 10;
+//typography
+@baseFont: 'Circe', 'Arial', serif;
+@baseFontSize: 14px;
+@headerFont: 'Circe', 'Arial', serif;
+//colors
+
+@primary: #000;
+@secondary: #ddd;
+@accent: green;
+@basecolor: #f2f5fa;
+
+//mixins
+//transition
+.trs(@prop, @speed : 0.3s, @delay: 0s, @easing: ease) {
+    -webkit-transition: @prop @speed @delay @easing;
+    -o-transition: @prop @speed @delay @easing;
+    transition: @prop @speed @delay @easing;
+}

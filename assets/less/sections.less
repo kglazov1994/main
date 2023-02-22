@@ -1,0 +1,75 @@
+.sections {
+    gap: 15px;
+    flex-wrap: wrap;
+    &__item {
+        background: #f2f5fa;
+        border-radius: 10px;
+        padding: 13px 15px;
+        width: 310px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        height: 700px;
+        overflow-y: auto;
+    }
+    &__add {
+        padding: 5px 10px;
+        background: #000;
+        color: #fff;
+        cursor: pointer;
+        max-width: 100px;
+        height: 40px;
+    }
+}
+
+.section{
+    &__header{
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+    &__input{
+        background: transparent;
+        border: none;
+        outline: none;
+
+    }
+    &__addcards{
+        cursor: pointer;
+        padding: 5px;
+    }
+}
+.card {
+    padding: 9px 15px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(21, 27, 38, 0.2);
+    border-radius: 10px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: 0.3s all;
+    &:hover{
+        box-shadow: 2px 4px 8px rgba(21, 27, 38, 0.2);
+    }
+    &__header, &__executor{
+        gap:10px;
+    }
+    &__userpic, &__executor{
+        margin-top: 10px;
+        img{
+            width: 30px;
+            height: 30px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+    }
+}
+
+.modal-card{
+    &__executor{
+        img{
+            width: 30px;
+            height: 30px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+    }
+}

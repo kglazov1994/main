@@ -1,0 +1,192 @@
+html,
+body {
+    font-family: @baseFont !important;
+    font-size: @baseFontSize !important;
+}
+
+a,
+.like-link {
+    text-decoration: none;
+    color: currentColor;
+    cursor: pointer;
+    .trs(all);
+    @media @notsm {
+        &:hover {
+            color: @accent !important;
+        }
+    }
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.sitebar{
+    width: 290px;
+    background: @basecolor;
+    padding: 23px 25px;
+    &__header{
+        justify-content: space-between;
+        margin-bottom: 32px;
+    }
+    &__logo{
+        color: #333;
+    }
+    &__menu{
+        display: flex;
+        flex-direction: column;
+        gap:26px;
+        margin-bottom: 34px;
+    }
+    &__item{
+        gap:10px;
+    }
+    &__favorites{
+        display: flex;
+        flex-direction: column;
+        gap: 21px;
+        margin-top: 14px;
+        &-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            &::before {
+                content: '';
+                display: block;
+                width: 10px;
+                height: 10px;
+                background: #8BC34A;
+                border-radius: 50%;
+            }
+            &--last{
+                &::before {
+                    content: '';
+                    display: block;
+                    width: 10px;
+                    height: 10px;
+                    background: #03A9F4;;
+                    border-radius: 50%;
+                }
+            }
+        }
+    }
+}
+
+.flex,
+.flex-c {
+    display: flex;
+}
+.flex-c {
+    align-items: center;
+}
+.sprite-icons {
+    display: block;
+}
+
+//transitions
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.3s;
+}
+.fade-enter,
+.fade-leave-active {
+    opacity: 0;
+}
+
+.site {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    &__content, &__container {
+        flex-grow: 1;
+    }
+    // &__content{
+    // }
+    .splide {
+        &__pagination {
+            bottom: unset;
+            top: 100%;
+            margin-top: 16px;
+            &__page {
+                width: 12px;
+                height: 12px;
+                margin: 6px;
+                &.is-active {
+                    transform: none;
+                    background: @accent;
+                }
+            }
+        }
+        &__arrow {
+            box-shadow: 0 4px 16px rgba(38, 40, 43, 0.16);
+            opacity: 1;
+            width: 44px;
+            height: 44px;
+            .trs(opacity);
+            &:hover {
+                opacity: 0.8;
+            }
+            &[disabled] {
+                display: none;
+            }
+            &--prev {
+                background: url(../img/svg/arrow-prev.svg) center no-repeat,
+                    #fff;
+                left: -22px;
+            }
+            &--next {
+                background: url(../img/svg/arrow-next.svg) center no-repeat,
+                    #fff;
+                right: -22px;
+            }
+            svg {
+                display: none;
+            }
+        }
+    }
+}
+.container {
+    margin: 0 auto;
+    width: @siteWidth;
+    padding-left: @containerPadding;
+    padding-right: @containerPadding;
+    flex-grow: 1;
+    max-width: 100%;
+    &-ignore {
+        margin-left: -@containerPadding;
+        margin-right: -@containerPadding;
+        @media @md {
+            margin-left: -@containerPaddingMd;
+            margin-right: -@containerPaddingMd;
+        }
+        @media @sm {
+            margin-left: -@containerPaddingSm;
+            margin-right: -@containerPaddingSm;
+        }
+    }
+    @media @md {
+        padding-left: @containerPaddingMd;
+        padding-right: @containerPaddingMd;
+    }
+    @media @sm {
+        padding-left: @containerPaddingSm;
+        padding-right: @containerPaddingSm;
+    }
+}
+.page {
+    padding: 15px 19px;
+}
+
+.btn{
+    cursor: pointer;
+    padding: 5px 10px;
+    border: 1px solid #000;
+    background: transparent;
+    text-align: center;
+}

@@ -1,0 +1,14 @@
+User-agent: *
+Disallow: /*openstat*
+Disallow: /*?utm*
+Disallow: /*&utm*
+Disallow: /*?from*
+Disallow: /*&from*
+Disallow: /*gclid*
+Disallow: /*yclid*
+Disallow: /*ymclid*
+Disallow: /*?tid*
+Disallow: /*&tid*
+
+
+Sitemap: https://example.site/sitemap.xml
