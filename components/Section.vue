@@ -8,8 +8,7 @@
             </div>
             <div class="section__addcards" @click="addCard(sections.id)">+</div>
         </div>
-
-        <div v-for="(cr, i) in cardsElectrical" :key="i" class="cards">
+        <div v-for="(cr, i) in sections.cards" :key="i" class="cards">
             <Card :cr="cr" :sections="sections" :idpage="idpage" />
         </div>
     </div>
@@ -73,7 +72,7 @@ export default {
                 description: '',
             }
             if (this.idpage === 'electrical') {
-                this.$store.commit('sections/setCardElectrical', card)
+                this.$store.commit('sections/setCardElectricalUp', card)
             }
             if (this.idpage === 'dishes') {
                 this.$store.commit('sections/setCardDishes', card)

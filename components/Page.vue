@@ -38,6 +38,7 @@ export default {
         addSection(id) {
             const section = {
                 name: '',
+                cards: [],
                 id: this.idpage + id,
             }
             if (this.idpage === 'electrical') {
