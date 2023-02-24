@@ -57,21 +57,25 @@ export default {
                     id: 1,
                     name: 'Кир 1',
                     mod: 'r',
+                    idArr: 'ar1',
                 },
                 {
                     id: 2,
                     name: 'Кир 2',
                     mod: 'g',
+                    idArr: 'ar1',
                 },
                 {
                     id: 3,
                     name: 'Кир 3',
                     mod: 's',
+                    idArr: 'ar1',
                 },
                 {
                     id: 4,
                     name: 'Кир 4',
                     mod: 'rg',
+                    idArr: 'ar1',
                 },
             ],
             myArray2: [],
@@ -111,7 +115,17 @@ export default {
         onMove({ relatedContext, draggedContext }) {
             const relatedElement = relatedContext.element
             const draggedElement = draggedContext.element
-            return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
+
+            // if (this.myArray2.includes(draggedElement)) {
+            //     draggedElement.idArr = 'ar2'
+            // }
+            this.myArray2.includes(draggedElement)
+            // if (this.myArray2.length) {
+            //     this.myArray2.forEach((el) => {
+            //         el.idArr = 'ar2'
+            //     })
+            // }
+            return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed && (draggedElement.idArr = 'ar2')
         },
     },
 }

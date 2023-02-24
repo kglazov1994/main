@@ -56,6 +56,7 @@ export default {
         '@nuxtjs/stylelint-module',
         '@nuxtjs/style-resources',
         '@nuxtjs/device',
+        '@nuxtjs/composition-api/module',
     ],
     styleResources: {
         less: '~/assets/less/vars.less',

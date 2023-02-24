@@ -39,6 +39,42 @@ export const mutations = {
             })
         })
     },
+    addDeadlineCardElectrical(state, payload) {
+        state.electrical.forEach((section) => {
+            section.cards.forEach((card) => {
+                if (card.cardId === payload.id) {
+                    card.deadline = payload.val
+                }
+            })
+        })
+    },
+    addProjectCardElectrical(state, payload) {
+        state.electrical.forEach((section) => {
+            section.cards.forEach((card) => {
+                if (card.cardId === payload.id) {
+                    card.project = payload.val
+                }
+            })
+        })
+    },
+    addDescriptionCardElectrical(state, payload) {
+        state.electrical.forEach((section) => {
+            section.cards.forEach((card) => {
+                if (card.cardId === payload.id) {
+                    card.description = payload.val
+                }
+            })
+        })
+    },
+    addSubtaskCardElectrical(state, payload) {
+        state.electrical.forEach((section) => {
+            section.cards.forEach((card) => {
+                if (card.cardId === payload.id) {
+                    card.subtasks.push(payload.val)
+                }
+            })
+        })
+    },
 
     // Посуда-Сити
     setDishes(state, payload) {

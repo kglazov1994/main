@@ -70,9 +70,10 @@ export default {
                 deadline: '',
                 project: '',
                 description: '',
+                subtasks: [],
             }
             if (this.idpage === 'electrical') {
-                this.$store.commit('sections/setCardElectricalUp', card)
+                this.$store.commit('sections/setCardElectrical', card)
             }
             if (this.idpage === 'dishes') {
                 this.$store.commit('sections/setCardDishes', card)

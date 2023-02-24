@@ -6,12 +6,28 @@
         </div>
 
         <div v-else class="card__name card__name--not">Напишите название задачи...</div>
-        <div v-if="cr.executor.length" class="card__executor flex">
-            <svg-icon v-if="ex === ''" class="card__userphoto" name="user" width="30" height="30" />
-            <img v-else :src="ex" alt="" />
-            <div class="card__executor-name">{{ cr.executor }}</div>
+        <div class="card__info flex-c">
+            <div class="card__left">
+                <div v-if="cr.executor.length" class="card__executor">
+                    <svg-icon v-if="ex === ''" class="card__userphoto" name="user" width="30" height="30" />
+                    <img v-else :src="ex" alt="" />
+                </div>
+                <svg-icon v-else class="card__userpic" name="user" width="30" height="30" />
+            </div>
+            <div class="card__right">
+                <div v-if="cr.deadline">
+                    до
+                    <span :class="new Date(cr.deadline) < new Date() ? 'red' : ''">
+                        {{
+                            new Intl.DateTimeFormat('ru', { month: 'long', day: 'numeric' }).format(
+                                new Date(cr.deadline)
+                            )
+                        }}
+                    </span>
+                </div>
+            </div>
         </div>
-        <svg-icon v-else class="card__userpic" name="user" width="30" height="30" />
+
         <UiModal v-model="isModalCall" class="call-order" :open="isModalCall" position="top right">
             <div class="modal-card">
                 <div v-if="cr.name" class="modal-card__name">{{ cr.name }}</div>
@@ -33,6 +49,66 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="modal-card__item flex">
+                        <div class="modal-card__h6">Дата</div>
+                        <div v-if="cr.deadline !== ''" class="modal-card__executor">
+                            <span :class="new Date(cr.deadline) < new Date() ? 'red' : ''">
+                                {{
+                                    new Intl.DateTimeFormat('ru', { dateStyle: 'medium' }).format(new Date(cr.deadline))
+                                }}
+                            </span>
+                        </div>
+                        <div v-else class="modal-card__executor">
+                            <input
+                                :id="'deadline-' + cr.id"
+                                v-imask="mask"
+                                type="text"
+                                @accept="onAccept"
+                                @complete="onComplete"
+                            />
+                            <div class="btn" @click="deadlineCard('deadline-' + cr.id, cr.cardId)">Добавить дату</div>
+                        </div>
+                    </div>
+                    <div class="modal-card__item flex">
+                        <div class="modal-card__h6">Проект</div>
+                        <div v-if="cr.project !== ''" class="modal-card__executor">
+                            <img v-if="ex !== ''" :src="ex" alt="" />
+                            {{ cr.project }}
+                        </div>
+                        <div v-else class="modal-card__executor">
+                            <input :id="'project-' + cr.id" type="text" />
+                            <div class="btn" @click="projectCard('project-' + cr.id, cr.cardId)">Добавить Проект</div>
+                        </div>
+                    </div>
+
+                    <div class="modal-card__item flex">
+                        <div class="modal-card__h6">Описание</div>
+                        <div v-if="cr.description !== ''" class="modal-card__executor">
+                            <img v-if="ex !== ''" :src="ex" alt="" />
+                            {{ cr.description }}
+                        </div>
+                        <div v-else class="modal-card__executor">
+                            <textarea :id="'description-' + cr.id"></textarea>
+                            <div class="btn" @click="descriptionCard('description-' + cr.id, cr.cardId)">
+                                Добавить описание
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-card__subtasks">
+                    <div v-if="cr.subtasks.length" class="modal-card__subtasks-list">
+                        <div v-for="(subtask, i) in cr.subtasks" :key="i" class="modal-card__subtasks-item flex-c">
+                            <svg-icon class="card__check" name="check" width="15" height="15" />
+                            <div class="">{{ subtask }}</div>
+                        </div>
+                    </div>
+                    <div v-if="subtasks" class="modal-card__subtasks-item flex-c">
+                        <svg-icon class="card__check" name="check" width="15" height="15" />
+                        <input :id="'subtask-' + cr.id" type="text" />
+                        <div class="btn" @click="addSubtask('subtask-' + cr.id, cr.cardId)">Добавить</div>
+                    </div>
+                    <div class="modal-card__subtasks-add" @click="subtasks = true">+ Добавить подзадачу</div>
                 </div>
             </div>
         </UiModal>
@@ -40,8 +116,12 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+import { IMaskDirective } from 'vue-imask'
 export default {
     name: 'Card',
+    directives: {
+        imask: IMaskDirective,
+    },
     props: {
         sections: {
             type: Object,
@@ -58,9 +138,15 @@ export default {
     },
     data() {
         return {
+            mask: {
+                mask: '00.00.0000',
+                lazy: true,
+            },
             sectionName: null,
             name: false,
             isModalCall: false,
+            comment: '',
+            subtasks: false,
             executors: [
                 {
                     name: 'Вадим',
@@ -95,6 +181,15 @@ export default {
         },
     },
     methods: {
+        onAccept(e) {
+            const maskRef = e.detail
+            this.value = maskRef.value
+            console.log('accept', maskRef.value)
+        },
+        onComplete(e) {
+            const maskRef = e.detail
+            console.log('complete', maskRef.unmaskedValue)
+        },
         nameAdd() {
             if (this.sectionName !== null) {
                 this.name = true
@@ -112,6 +207,31 @@ export default {
             if (this.idpage === 'electrical') {
                 this.$store.commit('sections/addExecutorCardElectrical', { val: executor, id: cardId })
             }
+        },
+        deadlineCard(id, cardId) {
+            const deadline = document.getElementById(id).value.split('.').reverse().join('-')
+            if (this.idpage === 'electrical') {
+                this.$store.commit('sections/addDeadlineCardElectrical', { val: deadline, id: cardId })
+            }
+        },
+        projectCard(id, cardId) {
+            const project = document.getElementById(id).value
+            if (this.idpage === 'electrical') {
+                this.$store.commit('sections/addProjectCardElectrical', { val: project, id: cardId })
+            }
+        },
+        descriptionCard(id, cardId) {
+            const description = document.getElementById(id).value
+            if (this.idpage === 'electrical') {
+                this.$store.commit('sections/addDescriptionCardElectrical', { val: description, id: cardId })
+            }
+        },
+        addSubtask(id, cardId) {
+            const subtask = document.getElementById(id).value
+            if (this.idpage === 'electrical') {
+                this.$store.commit('sections/addSubtaskCardElectrical', { val: subtask, id: cardId })
+            }
+            this.subtasks = false
         },
     },
 }
