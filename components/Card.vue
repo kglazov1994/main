@@ -33,7 +33,7 @@
                 <div v-if="cr.name" class="modal-card__name">{{ cr.name }}</div>
                 <div v-else class="flex">
                     <input :id="'name-' + cr.id" type="text" />
-                    <div class="btn" @click="nameCard('name-' + cr.id, cr.cardId)">Назвать</div>
+                    <div class="btn" @click="optionsCard('name-' + cr.id, cr.cardId, 'name')">Назвать</div>
                 </div>
                 <div class="modal-card__info">
                     <div class="modal-card__item flex">
@@ -44,7 +44,7 @@
                         </div>
                         <div v-else class="modal-card__executor">
                             <input :id="'executor-' + cr.id" type="text" />
-                            <div class="btn" @click="executorCard('executor-' + cr.id, cr.cardId)">
+                            <div class="btn" @click="optionsCard('executor-' + cr.id, cr.cardId, 'executor')">
                                 Добавить исполнителя
                             </div>
                         </div>
@@ -73,24 +73,24 @@
                     <div class="modal-card__item flex">
                         <div class="modal-card__h6">Проект</div>
                         <div v-if="cr.project !== ''" class="modal-card__executor">
-                            <img v-if="ex !== ''" :src="ex" alt="" />
                             {{ cr.project }}
                         </div>
                         <div v-else class="modal-card__executor">
                             <input :id="'project-' + cr.id" type="text" />
-                            <div class="btn" @click="projectCard('project-' + cr.id, cr.cardId)">Добавить Проект</div>
+                            <div class="btn" @click="optionsCard('project-' + cr.id, cr.cardId, 'project')">
+                                Добавить Проект
+                            </div>
                         </div>
                     </div>
 
                     <div class="modal-card__item flex">
                         <div class="modal-card__h6">Описание</div>
                         <div v-if="cr.description !== ''" class="modal-card__executor">
-                            <img v-if="ex !== ''" :src="ex" alt="" />
                             {{ cr.description }}
                         </div>
                         <div v-else class="modal-card__executor">
                             <textarea :id="'description-' + cr.id"></textarea>
-                            <div class="btn" @click="descriptionCard('description-' + cr.id, cr.cardId)">
+                            <div class="btn" @click="optionsCard('description-' + cr.id, cr.cardId, 'description')">
                                 Добавить описание
                             </div>
                         </div>
@@ -196,34 +196,16 @@ export default {
             }
             this.$store.commit('sections/addNameElectrical', { id: this.sections.id, name: this.sectionName })
         },
-        nameCard(id, cardId) {
-            const name = document.getElementById(id).value
+        optionsCard(id, cardId, keyOption) {
+            const value = document.getElementById(id).value
             if (this.idpage === 'electrical') {
-                this.$store.commit('sections/addNameCardElectrical', { val: name, id: cardId })
-            }
-        },
-        executorCard(id, cardId) {
-            const executor = document.getElementById(id).value
-            if (this.idpage === 'electrical') {
-                this.$store.commit('sections/addExecutorCardElectrical', { val: executor, id: cardId })
+                this.$store.commit('sections/addOptionElectrical', { val: value, id: cardId, key: keyOption })
             }
         },
         deadlineCard(id, cardId) {
             const deadline = document.getElementById(id).value.split('.').reverse().join('-')
             if (this.idpage === 'electrical') {
                 this.$store.commit('sections/addDeadlineCardElectrical', { val: deadline, id: cardId })
-            }
-        },
-        projectCard(id, cardId) {
-            const project = document.getElementById(id).value
-            if (this.idpage === 'electrical') {
-                this.$store.commit('sections/addProjectCardElectrical', { val: project, id: cardId })
-            }
-        },
-        descriptionCard(id, cardId) {
-            const description = document.getElementById(id).value
-            if (this.idpage === 'electrical') {
-                this.$store.commit('sections/addDescriptionCardElectrical', { val: description, id: cardId })
             }
         },
         addSubtask(id, cardId) {

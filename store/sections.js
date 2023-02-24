@@ -14,6 +14,7 @@ export const mutations = {
             }
         })
     },
+
     addNameElectrical(state, payload) {
         state.electrical.forEach((section) => {
             if (section.id === payload.id) {
@@ -21,24 +22,20 @@ export const mutations = {
             }
         })
     },
-    addNameCardElectrical(state, payload) {
+    addOptionElectrical(state, payload) {
         state.electrical.forEach((section) => {
             section.cards.forEach((card) => {
-                if (card.cardId === payload.id) {
-                    card.name = payload.val
+                for (const key in card) {
+                    if (key === payload.key) {
+                        if (card.cardId === payload.id) {
+                            card[key] = payload.val
+                        }
+                    }
                 }
             })
         })
     },
-    addExecutorCardElectrical(state, payload) {
-        state.electrical.forEach((section) => {
-            section.cards.forEach((card) => {
-                if (card.cardId === payload.id) {
-                    card.executor = payload.val
-                }
-            })
-        })
-    },
+
     addDeadlineCardElectrical(state, payload) {
         state.electrical.forEach((section) => {
             section.cards.forEach((card) => {
@@ -48,24 +45,7 @@ export const mutations = {
             })
         })
     },
-    addProjectCardElectrical(state, payload) {
-        state.electrical.forEach((section) => {
-            section.cards.forEach((card) => {
-                if (card.cardId === payload.id) {
-                    card.project = payload.val
-                }
-            })
-        })
-    },
-    addDescriptionCardElectrical(state, payload) {
-        state.electrical.forEach((section) => {
-            section.cards.forEach((card) => {
-                if (card.cardId === payload.id) {
-                    card.description = payload.val
-                }
-            })
-        })
-    },
+
     addSubtaskCardElectrical(state, payload) {
         state.electrical.forEach((section) => {
             section.cards.forEach((card) => {
