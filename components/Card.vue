@@ -30,6 +30,26 @@
 
         <UiModal v-model="isModalCall" class="call-order" :open="isModalCall" position="top right">
             <div class="modal-card">
+                <div class="modal-card__header flex-c">
+                    <div class="modal-card__header-left">
+                        <div class="modal-card__work">
+                            <svg-icon name="play" width="18" height="18" />
+                            <div class="">Работать над задачей</div>
+                        </div>
+                    </div>
+                    <div class="modal-card__header-right">
+                        <div
+                            v-if="cr.sectionId === 'electrical3'"
+                            class="modal-card__complete modal-card__complete--end"
+                        >
+                            Завершено
+                        </div>
+                        <div v-else class="modal-card__complete" @click="complete(), (isModalCall = false)">
+                            <svg-icon name="complete" width="18" height="18" />
+                            <div class="">Завершить задачу</div>
+                        </div>
+                    </div>
+                </div>
                 <div v-if="cr.name" class="modal-card__name">{{ cr.name }}</div>
                 <div v-else class="flex">
                     <input :id="'name-' + cr.id" type="text" />
@@ -43,9 +63,10 @@
                             {{ cr.executor }}
                         </div>
                         <div v-else class="modal-card__executor">
-                            <input :id="'executor-' + cr.id" type="text" />
+                            <input :id="'executor-' + cr.id" type="text" placeholder="Имя исполнителя" />
                             <div class="btn" @click="optionsCard('executor-' + cr.id, cr.cardId, 'executor')">
-                                Добавить исполнителя
+                                <svg-icon class="plus" name="plus" width="18" height="18" />
+                                <div>Добавить</div>
                             </div>
                         </div>
                     </div>
@@ -64,10 +85,14 @@
                                 :id="'deadline-' + cr.id"
                                 v-imask="mask"
                                 type="text"
+                                placeholder="Нет даты"
                                 @accept="onAccept"
                                 @complete="onComplete"
                             />
-                            <div class="btn" @click="deadlineCard('deadline-' + cr.id, cr.cardId)">Добавить дату</div>
+                            <div class="btn" @click="deadlineCard('deadline-' + cr.id, cr.cardId)">
+                                <svg-icon class="plus" name="plus" width="18" height="18" />
+                                <div>Добавить</div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-card__item flex">
@@ -76,9 +101,10 @@
                             {{ cr.project }}
                         </div>
                         <div v-else class="modal-card__executor">
-                            <input :id="'project-' + cr.id" type="text" />
+                            <input :id="'project-' + cr.id" type="text" placeholder="Добавить проект" />
                             <div class="btn" @click="optionsCard('project-' + cr.id, cr.cardId, 'project')">
-                                Добавить Проект
+                                <svg-icon class="plus" name="plus" width="18" height="18" />
+                                <div>Добавить</div>
                             </div>
                         </div>
                     </div>
@@ -88,32 +114,74 @@
                         <div v-if="cr.description !== ''" class="modal-card__executor">
                             {{ cr.description }}
                         </div>
-                        <div v-else class="modal-card__executor">
-                            <textarea :id="'description-' + cr.id"></textarea>
+                        <div v-else class="modal-card__executor modal-card__executor--column">
+                            <textarea
+                                :id="'description-' + cr.id"
+                                placeholder="Добавьте описание к этой задаче..."
+                            ></textarea>
                             <div class="btn" @click="optionsCard('description-' + cr.id, cr.cardId, 'description')">
-                                Добавить описание
+                                <svg-icon class="plus" name="plus" width="18" height="18" />
+                                <div>Добавить</div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-card__subtasks">
+                    <div class="modal-card__subtasks-header">
+                        <div class="modal-card__subtasks-title">Подзадачи</div>
+                    </div>
+
                     <div v-if="cr.subtasks.length" class="modal-card__subtasks-list">
                         <div v-for="(subtask, i) in cr.subtasks" :key="i" class="modal-card__subtasks-item flex-c">
                             <svg-icon class="card__check" name="check" width="15" height="15" />
-                            <div class="">{{ subtask }}</div>
+                            <div>{{ subtask }}</div>
                         </div>
                     </div>
                     <div v-if="subtasks" class="modal-card__subtasks-item flex-c">
                         <svg-icon class="card__check" name="check" width="15" height="15" />
                         <input :id="'subtask-' + cr.id" type="text" />
-                        <div class="btn" @click="addSubtask('subtask-' + cr.id, cr.cardId)">Добавить</div>
+                        <div class="btn" @click="addSubtask('subtask-' + cr.id, cr.cardId)">
+                            <svg-icon class="plus" name="plus" width="18" height="18" />
+                            <div>Добавить</div>
+                        </div>
                     </div>
-                    <div class="modal-card__subtasks-add" @click="subtasks = true">+ Добавить подзадачу</div>
+                    <div class="btn btn--start" @click="subtasks = true">
+                        <svg-icon class="plus" name="plus" width="18" height="18" />
+                        <div>Добавить подзадачу</div>
+                    </div>
                 </div>
                 <div class="modal-card__comments">
                     <div v-if="cr.comments.length" class="modal-card__comments-list">
                         <div v-for="(comm, i) in cr.comments" :key="i" class="modal-card__comments-item flex-c">
-                            <div class="">{{ comm }}</div>
+                            <div class="user"></div>
+                            <div class="comment">
+                                <div class="comment__header">
+                                    <div v-if="Math.floor((new Date() - new Date(comm.time)) / 1000 / 60) < 60">
+                                        {{ Math.floor((new Date() - new Date(comm.time)) / 1000 / 60) }} минут назад
+                                    </div>
+                                    <div v-if="Math.floor((new Date() - new Date(comm.time)) / 1000 / 60) >= 60">
+                                        В
+                                        {{
+                                            new Intl.DateTimeFormat('ru', { timeStyle: 'short' }).format(
+                                                new Date(comm.time)
+                                            )
+                                        }}
+                                    </div>
+                                    <div
+                                        v-if="Math.floor((new Date() - new Date(comm.time)) / 1000 / 60) >= 1440"
+                                        class=""
+                                    >
+                                        Вчера
+                                    </div>
+                                    <div
+                                        v-if="Math.floor((new Date() - new Date(comm.time)) / 1000 / 60) >= 2880"
+                                        class=""
+                                    >
+                                        {{ new Date(comm.time).toLocaleString('ru', { dateStyle: 'medium' }) }}
+                                    </div>
+                                </div>
+                                <div class="comment__body">{{ comm.comment }}</div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-card__subtasks-item flex-c">
@@ -232,7 +300,9 @@ export default {
                 this.$store.commit('sections/addCommentCardElectrical', { val: comment, id: cardId, time: date })
             }
             document.getElementById(id).value = ''
-            // (new Date().getTime() - new Date(2022-02-24).getTime())/60000
+        },
+        complete() {
+            this.$store.commit('sections/complete', this.cr)
         },
     },
 }

@@ -23,6 +23,12 @@
 }
 
 .section{
+    &__title{
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 22px;
+    }
     &__header{
         justify-content: space-between;
         margin-bottom: 20px;
@@ -64,23 +70,131 @@
     &__info{
         gap:10px;
     }
+    &__name{
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+    }
 }
 
 .modal-card{
+    input{
+        background: transparent;
+        border: none;
+        outline: none;
+    }
+    textarea{
+        width: 100%;
+        resize: none;
+        outline: none;
+        overflow: hidden;
+        border: 1px solid #F2F5FA;
+        border-radius: 10px;
+        display: block;
+        min-width: 697px;
+        min-height: 76px;
+        padding: 12px;
+    }
+    &__header{
+        margin: 0 -20px;
+        margin-bottom: 20px;
+        padding: 0 20px;
+        border-bottom: 1px solid #F2F5FA;
+        padding-bottom: 14px;
+        justify-content: space-between;
+    }
+    &__name{
+        font-style: normal;
+        font-weight: 600;
+        font-size: 24px;
+        margin-bottom: 34px;
+    }
     &__executor{
+        display: flex;
+        align-items: center;
+        gap: 10px;
         img{
             width: 30px;
             height: 30px;
             object-fit: cover;
             border-radius: 50%;
         }
+        &--column{
+            flex-direction: column;
+        }
     }
     &__item{
-        gap:10px;
+        gap:39px;
     }
     &__subtasks{
+        &-header{
+            padding: 0 20px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #F2F5FA;
+            margin: 0 -20px;
+        }
         &-list{
             gap:16px;
+        }
+        &-title{
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            color: #808080;
+        }
+    }
+    &__comments{
+        margin-top: 103px;
+    }
+    &__info{
+        margin-bottom: 26px;
+    }
+    &__h6{
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        color: #96999C;
+        width: 85px;
+    }
+    &__work{
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 15px;
+        width: 222px;
+        height: 30px;
+        background: #F2F5FA;
+        border-radius: 10px;
+        color: #333;
+        gap:10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    &__complete{
+        width: 199px;
+        height: 30px;
+        left: 543px;
+        top: 13px;
+        background: #97C95D;
+        border-radius: 10px;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 15px;
+        color: #FFF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap:10px;
+        &--end{
+            pointer-events: none;
+            opacity: 0.6;
+            svg{
+                display: none;
+            }
         }
     }
 }

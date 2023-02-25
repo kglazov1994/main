@@ -24,6 +24,21 @@ export const state = () => ({
     dishes: [],
 })
 export const mutations = {
+    complete(state, payload) {
+        payload.id = 'celectrical3'
+        payload.sectionId = 'electrical3'
+        state.electrical.forEach((section) => {
+            if (section.id === payload.sectionId) {
+                section.cards.push(payload)
+            }
+            if (section.id !== payload.sectionId) {
+                const index = section.cards.findIndex((n) => n.sectionId === payload.sectionId)
+                if (index !== -1) {
+                    section.cards.splice(index, 1)
+                }
+            }
+        })
+    },
     // Электротовары
     setElectrical(state, payload) {
         state.electrical.push(payload)
@@ -77,7 +92,7 @@ export const mutations = {
         state.electrical.forEach((section) => {
             section.cards.forEach((card) => {
                 if (card.cardId === payload.id) {
-                    card.comments.push(payload.val)
+                    card.comments.push({ comment: payload.val, time: payload.time })
                 }
             })
         })

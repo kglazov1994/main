@@ -10,9 +10,9 @@
                 v-bsl="open"
                 class="modal__content"
             >
-                <div class="modal__close like-link" @click="$emit('input', false)">
+                <!-- <div class="modal__close like-link" @click="$emit('input', false)">
                     <svg-icon name="close" width="24" height="24" />
-                </div>
+                </div> -->
                 <slot></slot>
             </div>
         </div>
@@ -47,39 +47,23 @@ export default {
     background: rgba(19, 20, 29, 20%);
     &[data-position*='top'] {
         align-items: flex-start;
-        padding-top: 16px;
-        @media @sm {
-            padding-top: 0;
-        }
     }
     &[data-position*='bottom'] {
         align-items: flex-end;
-        padding-bottom: 16px;
-        @media @sm {
-            padding-bottom: 0;
-        }
     }
     &[data-position*='right'] {
         justify-content: flex-end;
-        padding-right: 16px;
-        @media @sm {
-            padding-right: 0;
-        }
     }
     &[data-position*='left'] {
         justify-content: flex-start;
-        padding-left: 16px;
-        @media @sm {
-            padding-left: 0;
-        }
     }
     &__content {
-        width: 564px;
+        width: 858px;
         max-width: 100%;
         background: #fff;
-        padding: 40px;
         position: relative;
-        max-height: calc(100vh - 32px);
+        padding: 12px 20px;
+        height: 100vh;
         overflow-y: auto;
         @media @sm {
             height: 100%;

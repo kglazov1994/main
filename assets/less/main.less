@@ -37,6 +37,11 @@ img {
     }
     &__logo{
         color: #333;
+        font-family: 'NotoSerif', 'Arial', serif;;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 29px;
     }
     &__menu{
         display: flex;
@@ -186,7 +191,22 @@ img {
 .btn{
     cursor: pointer;
     padding: 5px 10px;
-    border: 1px solid #000;
     background: transparent;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    transition: 0.3s all;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    color: #96999C;
+    &:hover{
+        background: #F2F5FA;
+    }
+    &--start{
+        justify-content: flex-start;
+        width: 100%;
+    }
 }
