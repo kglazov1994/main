@@ -60,6 +60,12 @@ export default {
         ...mapState('sections', ['cardsDishes']),
     },
     methods: {
+        nameAdd() {
+            if (this.sectionName !== null) {
+                this.name = true
+            }
+            this.$store.commit('sections/addNameElectrical', { id: this.sections.id, name: this.sectionName })
+        },
         addCard(id) {
             const card = {
                 sectionId: this.sections.id,
@@ -71,6 +77,7 @@ export default {
                 project: '',
                 description: '',
                 subtasks: [],
+                comments: [],
             }
             if (this.idpage === 'electrical') {
                 this.$store.commit('sections/setCardElectrical', card)

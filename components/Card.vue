@@ -110,6 +110,21 @@
                     </div>
                     <div class="modal-card__subtasks-add" @click="subtasks = true">+ Добавить подзадачу</div>
                 </div>
+                <div class="modal-card__comments">
+                    <div v-if="cr.comments.length" class="modal-card__comments-list">
+                        <div v-for="(comm, i) in cr.comments" :key="i" class="modal-card__comments-item flex-c">
+                            <div class="">{{ comm }}</div>
+                        </div>
+                    </div>
+                    <div class="modal-card__subtasks-item flex-c">
+                        <input
+                            :id="'comment-' + cr.id"
+                            type="text"
+                            placeholder="Задайте вопрос или напишите комметарий... "
+                        />
+                        <div class="btn" @click="addComment('comment-' + cr.id, cr.cardId)">Добавить</div>
+                    </div>
+                </div>
             </div>
         </UiModal>
     </div>
@@ -190,12 +205,7 @@ export default {
             const maskRef = e.detail
             console.log('complete', maskRef.unmaskedValue)
         },
-        nameAdd() {
-            if (this.sectionName !== null) {
-                this.name = true
-            }
-            this.$store.commit('sections/addNameElectrical', { id: this.sections.id, name: this.sectionName })
-        },
+
         optionsCard(id, cardId, keyOption) {
             const value = document.getElementById(id).value
             if (this.idpage === 'electrical') {
@@ -214,6 +224,15 @@ export default {
                 this.$store.commit('sections/addSubtaskCardElectrical', { val: subtask, id: cardId })
             }
             this.subtasks = false
+        },
+        addComment(id, cardId) {
+            const comment = document.getElementById(id).value
+            const date = new Date()
+            if (this.idpage === 'electrical') {
+                this.$store.commit('sections/addCommentCardElectrical', { val: comment, id: cardId, time: date })
+            }
+            document.getElementById(id).value = ''
+            // (new Date().getTime() - new Date(2022-02-24).getTime())/60000
         },
     },
 }

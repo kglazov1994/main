@@ -1,5 +1,26 @@
 export const state = () => ({
-    electrical: [],
+    electrical: [
+        {
+            name: 'Нужно сделать',
+            cards: [],
+            id: 'electrical0',
+        },
+        {
+            name: 'В работе',
+            cards: [],
+            id: 'electrical1',
+        },
+        {
+            name: 'Сделано',
+            cards: [],
+            id: 'electrical2',
+        },
+        {
+            name: 'Завершено',
+            cards: [],
+            id: 'electrical3',
+        },
+    ],
     dishes: [],
 })
 export const mutations = {
@@ -14,7 +35,6 @@ export const mutations = {
             }
         })
     },
-
     addNameElectrical(state, payload) {
         state.electrical.forEach((section) => {
             if (section.id === payload.id) {
@@ -35,7 +55,6 @@ export const mutations = {
             })
         })
     },
-
     addDeadlineCardElectrical(state, payload) {
         state.electrical.forEach((section) => {
             section.cards.forEach((card) => {
@@ -45,12 +64,20 @@ export const mutations = {
             })
         })
     },
-
     addSubtaskCardElectrical(state, payload) {
         state.electrical.forEach((section) => {
             section.cards.forEach((card) => {
                 if (card.cardId === payload.id) {
                     card.subtasks.push(payload.val)
+                }
+            })
+        })
+    },
+    addCommentCardElectrical(state, payload) {
+        state.electrical.forEach((section) => {
+            section.cards.forEach((card) => {
+                if (card.cardId === payload.id) {
+                    card.comments.push(payload.val)
                 }
             })
         })
