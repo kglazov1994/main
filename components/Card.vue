@@ -74,6 +74,7 @@
                     <div class="modal-card__item flex">
                         <div class="modal-card__h6">Дата</div>
                         <div v-if="cr.deadline !== ''" class="modal-card__executor">
+                            <svg-icon name="date" width="28" height="28" />
                             <span :class="new Date(cr.deadline) < new Date() ? 'red' : ''">
                                 {{
                                     new Intl.DateTimeFormat('ru', { dateStyle: 'medium' }).format(new Date(cr.deadline))
@@ -81,6 +82,7 @@
                             </span>
                         </div>
                         <div v-else class="modal-card__executor">
+                            <svg-icon name="date" width="28" height="28" />
                             <input
                                 :id="'deadline-' + cr.id"
                                 v-imask="mask"
@@ -110,7 +112,7 @@
                     </div>
 
                     <div class="modal-card__item flex">
-                        <div class="modal-card__h6">Описание</div>
+                        <div class="modal-card__h6 modal-card__h6--start">Описание</div>
                         <div v-if="cr.description !== ''" class="modal-card__executor">
                             {{ cr.description }}
                         </div>
@@ -133,13 +135,19 @@
 
                     <div v-if="cr.subtasks.length" class="modal-card__subtasks-list">
                         <div v-for="(subtask, i) in cr.subtasks" :key="i" class="modal-card__subtasks-item flex-c">
-                            <svg-icon class="card__check" name="check" width="15" height="15" />
-                            <div>{{ subtask }}</div>
+                            <div class="left flex-c">
+                                <svg-icon class="card__check" name="check" width="15" height="15" />
+                                <div>{{ subtask }}</div>
+                            </div>
+                            <div class="right flex-c">
+                                <svg-icon name="date" width="28" height="28" />
+                                <svg-icon name="user" width="28" height="28" />
+                            </div>
                         </div>
                     </div>
                     <div v-if="subtasks" class="modal-card__subtasks-item flex-c">
                         <svg-icon class="card__check" name="check" width="15" height="15" />
-                        <input :id="'subtask-' + cr.id" type="text" />
+                        <input :id="'subtask-' + cr.id" type="text" placeholder="Подзадача" />
                         <div class="btn" @click="addSubtask('subtask-' + cr.id, cr.cardId)">
                             <svg-icon class="plus" name="plus" width="18" height="18" />
                             <div>Добавить</div>
@@ -152,14 +160,23 @@
                 </div>
                 <div class="modal-card__comments">
                     <div v-if="cr.comments.length" class="modal-card__comments-list">
-                        <div v-for="(comm, i) in cr.comments" :key="i" class="modal-card__comments-item flex-c">
-                            <div class="user"></div>
+                        <div v-for="(comm, i) in cr.comments" :key="i" class="modal-card__comments-item flex">
+                            <div class="user">
+                                <img src="/img/4.webp" alt="" />
+                            </div>
                             <div class="comment">
-                                <div class="comment__header">
-                                    <div v-if="Math.floor((new Date() - new Date(comm.time)) / 1000 / 60) < 60">
+                                <div class="comment__header flex-c">
+                                    <div class="comment__header-name">Иван</div>
+                                    <div
+                                        v-if="Math.floor((new Date() - new Date(comm.time)) / 1000 / 60) < 60"
+                                        class="comment__header-time"
+                                    >
                                         {{ Math.floor((new Date() - new Date(comm.time)) / 1000 / 60) }} минут назад
                                     </div>
-                                    <div v-if="Math.floor((new Date() - new Date(comm.time)) / 1000 / 60) >= 60">
+                                    <div
+                                        v-if="Math.floor((new Date() - new Date(comm.time)) / 1000 / 60) >= 60"
+                                        class="comment__header-time"
+                                    >
                                         В
                                         {{
                                             new Intl.DateTimeFormat('ru', { timeStyle: 'short' }).format(
@@ -169,13 +186,13 @@
                                     </div>
                                     <div
                                         v-if="Math.floor((new Date() - new Date(comm.time)) / 1000 / 60) >= 1440"
-                                        class=""
+                                        class="comment__header-time"
                                     >
                                         Вчера
                                     </div>
                                     <div
                                         v-if="Math.floor((new Date() - new Date(comm.time)) / 1000 / 60) >= 2880"
-                                        class=""
+                                        class="comment__header-time"
                                     >
                                         {{ new Date(comm.time).toLocaleString('ru', { dateStyle: 'medium' }) }}
                                     </div>
@@ -184,13 +201,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-card__subtasks-item flex-c">
+                    <div class="modal-card__comments-input flex-c">
+                        <div class="user">
+                            <img src="/img/4.webp" alt="" />
+                        </div>
                         <input
                             :id="'comment-' + cr.id"
                             type="text"
                             placeholder="Задайте вопрос или напишите комметарий... "
                         />
-                        <div class="btn" @click="addComment('comment-' + cr.id, cr.cardId)">Добавить</div>
+                        <div class="btn btn--send" @click="addComment('comment-' + cr.id, cr.cardId)">
+                            <svg-icon name="send" width="24" height="24" />
+                        </div>
                     </div>
                 </div>
             </div>

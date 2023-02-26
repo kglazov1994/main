@@ -1,20 +1,26 @@
 <template>
     <div v-if="idpage === 'electrical'" class="page__content flex">
-        <div v-if="electrical && electrical.length" class="sections flex-c">
+        <div v-if="electrical && electrical.length" class="sections flex">
             <div v-for="(sec, n) in electrical" :id="idpage + n" :key="n" class="sections__item">
                 <Section :sections="sec" :idpage="idpage" />
             </div>
         </div>
-        <button class="sections__add" @click="addSection(electrical.length)">Добавить столбец</button>
+        <div class="btn" @click="addSection(electrical.length)">
+            <svg-icon class="plus" name="plus" width="18" height="18" />
+            <div>Добавить столбец</div>
+        </div>
     </div>
 
     <div v-else class="page__content flex">
-        <div v-if="dishes && dishes.length" class="sections flex-c">
+        <div v-if="dishes && dishes.length" class="sections flex">
             <div v-for="(sec, n) in dishes" :id="idpage + n" :key="n" class="sections__item">
                 <Section :sections="sec" :idpage="idpage" />
             </div>
         </div>
-        <button class="sections__add" @click="addSection(dishes.length)">Добавить столбец</button>
+        <div class="btn" @click="addSection(dishes.length)">
+            <svg-icon class="plus" name="plus" width="18" height="18" />
+            <div>Добавить столбец</div>
+        </div>
     </div>
 </template>
 <script>
