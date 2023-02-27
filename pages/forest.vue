@@ -10,7 +10,7 @@
                         v-bind="dragOptions"
                         :move="onMove"
                         @start="isDragging = true"
-                        @end="isDragging = false"
+                        @end=";(isDragging = false), idUpdate()"
                     >
                         <transition-group type="transition" :name="'flip-list'">
                             <li v-for="(element, i) in myArray" :key="i" class="list-group-item">
@@ -23,7 +23,7 @@
                 </div>
 
                 <div class="col-md-2">
-                    <draggable v-model="myArray2" element="span" v-bind="dragOptions" :move="onMove">
+                    <draggable v-model="myArray2" element="span" v-bind="dragOptions" :move="onMove" @end="idUpdate()">
                         <transition-group name="no" class="list-group" tag="ul">
                             <li v-for="(element, i) in myArray2" :key="i" class="list-group-item">
                                 <i aria-hidden="true" @click="element.fixed = !element.fixed"></i>
@@ -115,17 +115,19 @@ export default {
         onMove({ relatedContext, draggedContext }) {
             const relatedElement = relatedContext.element
             const draggedElement = draggedContext.element
-
-            // if (this.myArray2.includes(draggedElement)) {
-            //     draggedElement.idArr = 'ar2'
-            // }
-            this.myArray2.includes(draggedElement)
-            // if (this.myArray2.length) {
-            //     this.myArray2.forEach((el) => {
-            //         el.idArr = 'ar2'
-            //     })
-            // }
-            return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed && (draggedElement.idArr = 'ar2')
+            return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
+        },
+        idUpdate() {
+            if (this.myArray2.length) {
+                this.myArray2.forEach((el) => {
+                    el.idArr = 'ar2'
+                })
+            }
+            if (this.myArray.length) {
+                this.myArray.forEach((el) => {
+                    el.idArr = 'ar1'
+                })
+            }
         },
     },
 }

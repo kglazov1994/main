@@ -47,9 +47,6 @@
     &:hover{
         box-shadow: 2px 4px 8px rgba(21, 27, 38, 0.2);
     }
-    &__header, &__executor{
-        gap:10px;
-    }
     &__userpic, &__executor{
         margin-top: 10px;
         img{
@@ -59,6 +56,16 @@
             border-radius: 50%;
         }
     }
+    &__executor{
+        gap:10px;
+    }
+    &__header{
+        justify-content: space-between;
+        &-name{
+            gap:10px;
+        }
+    }
+
     &__info{
         gap:10px;
     }
@@ -66,6 +73,42 @@
         font-style: normal;
         font-weight: 400;
         font-size: 14px;
+    }
+    &__right{
+        justify-content: space-between;
+        width: 100%;
+    }
+    &__subtasks{
+        &-list{
+            margin-top: 20px;
+        }
+        &-item{
+            padding: 7px 0;
+            border-top: 1px solid #F1F1F1;
+            gap: 11px;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 22px;
+        }
+    }
+    &__subtask{
+        gap: 4px;
+        transition: 0.3s all;
+        border-radius: 10px;
+        padding: 4px 8px;
+        div{
+            font-style: normal;
+            font-weight: 400;
+            font-size: 12px;
+            color: #B7B9BB;
+        }
+        &--open{
+            background: #F2F5FA;
+        }
+        &:hover{
+            background: #F2F5FA;
+        }
     }
 }
 

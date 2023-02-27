@@ -53,6 +53,9 @@ export default {
         return {
             sectionName: null,
             name: false,
+            editable: true,
+            isDragging: false,
+            delayedDragging: false,
         }
     },
     computed: {
@@ -60,6 +63,11 @@ export default {
         ...mapState('sections', ['cardsDishes']),
     },
     methods: {
+        onMove({ relatedContext, draggedContext }) {
+            const relatedElement = relatedContext.element
+            const draggedElement = draggedContext.element
+            return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
+        },
         nameAdd() {
             if (this.sectionName !== null) {
                 this.name = true

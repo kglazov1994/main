@@ -1,11 +1,19 @@
 <template>
-    <div v-if="cr.sectionId === sections.id" class="card" @click="isModalCall = true">
+    <div v-if="cr.sectionId === sections.id" class="card">
         <div v-if="cr.name" class="card__header flex">
-            <svg-icon class="card__check" name="check" width="15" height="15" />
-            <div class="card__name">{{ cr.name }}</div>
+            <div class="card__header-name flex">
+                <svg-icon class="card__check" name="check" width="15" height="15" />
+                <div class="card__name">{{ cr.name }}</div>
+            </div>
+            <svg-icon name="burger-small" width="34" height="34" @click="isModalCall = true" />
         </div>
 
-        <div v-else class="card__name card__name--not">Напишите название задачи...</div>
+        <div v-else class="card__header flex">
+            <div class="card__header-name flex">
+                <div class="card__name">Название задачи...</div>
+            </div>
+            <svg-icon name="burger-small" width="34" height="34" @click="isModalCall = true" />
+        </div>
         <div class="card__info flex-c">
             <div class="card__left">
                 <div v-if="cr.executor.length" class="card__executor">
@@ -14,17 +22,47 @@
                 </div>
                 <svg-icon v-else class="card__userpic" name="user" width="30" height="30" />
             </div>
-            <div class="card__right">
-                <div v-if="cr.deadline">
-                    до
-                    <span :class="new Date(cr.deadline) < new Date() ? 'red' : ''">
-                        {{
-                            new Intl.DateTimeFormat('ru', { month: 'long', day: 'numeric' }).format(
-                                new Date(cr.deadline)
-                            )
-                        }}
-                    </span>
+            <div class="card__right flex-c">
+                <div class="card__data-time">
+                    <div v-if="cr.deadline">
+                        до
+                        <span :class="new Date(cr.deadline) < new Date() ? 'red' : ''">
+                            {{
+                                new Intl.DateTimeFormat('ru', { month: 'long', day: 'numeric' }).format(
+                                    new Date(cr.deadline)
+                                )
+                            }}
+                        </span>
+                    </div>
                 </div>
+                <div class="card__subtasks flex-c">
+                    <div
+                        v-if="cr.subtasks.length"
+                        class="card__subtask flex-c"
+                        :class="tasks ? 'card__subtask--open' : ''"
+                        @click="tasks = !tasks"
+                    >
+                        <div>{{ cr.subtasks.length }}</div>
+                        <svg-icon name="task" width="13" height="12" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-if="cr.subtasks.length && tasks" class="card__subtasks-list">
+            <div v-for="(subtask, i) in cr.subtasks" :key="i" class="card__subtasks-item flex-c">
+                <svg-icon class="card__check" name="check" width="15" height="15" />
+                <div>{{ subtask }}</div>
+            </div>
+            <div v-if="subtasksCard" class="card__subtasks-item flex-c">
+                <svg-icon class="card__check" name="check" width="15" height="15" />
+                <input :id="'subtask-' + cr.id" type="text" placeholder="Подзадача" />
+                <div class="btn" @click="addSubtask('subtask-' + cr.id, cr.cardId)">
+                    <svg-icon class="plus" name="plus" width="18" height="18" />
+                </div>
+            </div>
+            <div class="btn btn--start" @click="subtasksCard = true">
+                <svg-icon class="plus" name="plus" width="18" height="18" />
+                <div>Добавить подзадачу</div>
             </div>
         </div>
 
@@ -52,7 +90,7 @@
                 </div>
                 <div v-if="cr.name" class="modal-card__name">{{ cr.name }}</div>
                 <div v-else class="flex">
-                    <input :id="'name-' + cr.id" type="text" />
+                    <input :id="'name-' + cr.id" type="text" placeholder="Название задачи" />
                     <div class="btn" @click="optionsCard('name-' + cr.id, cr.cardId, 'name')">Назвать</div>
                 </div>
                 <div class="modal-card__info">
@@ -252,6 +290,8 @@ export default {
             isModalCall: false,
             comment: '',
             subtasks: false,
+            subtasksCard: false,
+            tasks: false,
             executors: [
                 {
                     name: 'Вадим',
@@ -314,6 +354,7 @@ export default {
                 this.$store.commit('sections/addSubtaskCardElectrical', { val: subtask, id: cardId })
             }
             this.subtasks = false
+            this.subtasksCard = false
         },
         addComment(id, cardId) {
             const comment = document.getElementById(id).value
