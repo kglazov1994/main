@@ -61,8 +61,13 @@
     }
     &__header{
         justify-content: space-between;
+        svg{
+            flex-shrink: 0;
+        }
         &-name{
             gap:10px;
+            width: 100%;
+
         }
     }
 
@@ -73,6 +78,19 @@
         font-style: normal;
         font-weight: 400;
         font-size: 14px;
+        width: 100%;
+        &--not{
+            background: transparent;
+            border: none;
+            outline: none;
+            &::placeholder{
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 22px;
+                color: #E5E5E5;
+            }
+
+        }
     }
     &__right{
         justify-content: space-between;

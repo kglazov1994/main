@@ -10,9 +10,16 @@
 
         <div v-else class="card__header flex">
             <div class="card__header-name flex">
-                <div class="card__name">Название задачи...</div>
+                <input
+                    :id="'name-' + cr.id"
+                    v-model="taskName"
+                    type="text"
+                    placeholder="Напишите название задачи..."
+                    class="card__name card__name--not"
+                />
+                <div v-if="taskName !== ''" class="btn" @click="optionsCard('name-' + cr.id, cr.cardId, 'name')">+</div>
             </div>
-            <svg-icon name="burger-small" width="34" height="34" @click="isModalCall = true" />
+            <!-- <svg-icon name="burger-small" width="34" height="34" @click="isModalCall = true" /> -->
         </div>
         <div class="card__info flex-c">
             <div class="card__left">
@@ -292,6 +299,7 @@ export default {
             subtasks: false,
             subtasksCard: false,
             tasks: false,
+            taskName: '',
             executors: [
                 {
                     name: 'Вадим',

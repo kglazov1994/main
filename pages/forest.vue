@@ -41,6 +41,7 @@
             <div class="list-group col-md-3">
                 <pre>{{ myArray2 }}</pre>
             </div>
+            {{ test }}
         </div>
     </div>
 </template>
@@ -82,6 +83,7 @@ export default {
             editable: true,
             isDragging: false,
             delayedDragging: false,
+            els: {},
         }
     },
 
@@ -93,6 +95,9 @@ export default {
                 disabled: !this.editable,
                 ghostClass: 'ghost',
             }
+        },
+        test() {
+            return this.els
         },
     },
     watch: {
@@ -115,6 +120,8 @@ export default {
         onMove({ relatedContext, draggedContext }) {
             const relatedElement = relatedContext.element
             const draggedElement = draggedContext.element
+            this.els = draggedElement
+            console.log(draggedElement)
             return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
         },
         idUpdate() {

@@ -11,6 +11,22 @@
         <div v-for="(cr, i) in sections.cards" :key="i" class="cards">
             <Card :cr="cr" :sections="sections" :idpage="idpage" />
         </div>
+
+        <!-- <draggable
+            v-model="sections.cards"
+            class="list-group"
+            tag="div"
+            v-bind="dragOptions"
+            :move="onMove"
+            @start="isDragging = true"
+            @end=";(isDragging = false), idUpdate()"
+        >
+            <transition-group type="transition" :name="'flip-list'">
+                <div v-for="(cr, i) in sections.cards" :key="i" class="cards">
+                    <Card :cr="cr" :sections="sections" :idpage="idpage" />
+                </div>
+            </transition-group>
+        </draggable> -->
     </div>
     <!-- <div v-else class="section">
         <div @click="addCard(sections.id)">Добавить карточку</div>
@@ -37,8 +53,12 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+// import draggable from 'vuedraggable'
 export default {
     name: 'Section',
+    // components: {
+    //     draggable,
+    // },
     props: {
         sections: {
             type: Object,
@@ -56,18 +76,45 @@ export default {
             editable: true,
             isDragging: false,
             delayedDragging: false,
+            currentCard: {},
         }
     },
     computed: {
         ...mapState('sections', ['cardsElectrical']),
         ...mapState('sections', ['cardsDishes']),
-    },
-    methods: {
-        onMove({ relatedContext, draggedContext }) {
-            const relatedElement = relatedContext.element
-            const draggedElement = draggedContext.element
-            return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
+        dragOptions() {
+            return {
+                animation: 0,
+                group: 'description',
+                disabled: !this.editable,
+                ghostClass: 'ghost',
+            }
         },
+        // currentTask() {
+        //     return this.currentCard
+        // },
+    },
+    // watch: {
+    //     isDragging(newValue) {
+    //         if (newValue) {
+    //             this.delayedDragging = true
+    //             return
+    //         }
+    //         this.$nextTick(() => {
+    //             this.delayedDragging = false
+    //         })
+    //     },
+    // },
+    methods: {
+        // onMove({ relatedContext, draggedContext }) {
+        //     const relatedElement = relatedContext.element
+        //     const draggedElement = draggedContext.element
+        //     this.currentCard = draggedElement
+        //     return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
+        // },
+        // idUpdate() {
+        //     console.log(this.currentTask)
+        // },
         nameAdd() {
             if (this.sectionName !== null) {
                 this.name = true
