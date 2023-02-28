@@ -76,17 +76,22 @@
         <UiModal v-model="isModalCall" class="call-order" :open="isModalCall" position="top right">
             <div class="modal-card">
                 <div class="modal-card__header flex-c">
-                    <div class="modal-card__header-left">
-                        <div class="modal-card__work" @click=";(start = !start), start ? timerStart() : timerStop()">
+                    <div class="modal-card__header-left flex-c">
+                        <div
+                            class="modal-card__work"
+                            @click=";(start = !start), start ? timerStart() : timerStop(cr.cardId, 'allTime')"
+                        >
                             <svg-icon :name="start ? 'pause' : 'play'" width="18" height="18" />
                             <!-- <svg-icon name="pause" width="18" height="18" /> -->
                             <div v-if="start">В работе</div>
                             <div v-else>Работать над задачей</div>
                         </div>
                         <div class="">
-                            {{ Math.trunc((allTime / 60 / 60) % 60) }}:{{ Math.trunc((allTime / 60) % 60) }}:{{
-                                allTime % 60
-                            }}
+                            <span v-if="Math.trunc((allTime / 60 / 60) % 60) < 10">0</span
+                            >{{ Math.trunc((allTime / 60 / 60) % 60) }}:<span
+                                v-if="Math.trunc((allTime / 60) % 60) < 10"
+                                >0</span
+                            >{{ Math.trunc((allTime / 60) % 60) }}ч. / 10ч.
                         </div>
                     </div>
                     <div class="modal-card__header-right">
@@ -343,6 +348,11 @@ export default {
             return photo
         },
     },
+    mounted() {
+        if (this.cr.allTime > 0) {
+            this.allTime = this.cr.allTime
+        }
+    },
     methods: {
         onAccept(e) {
             const maskRef = e.detail
@@ -388,8 +398,9 @@ export default {
         timerStart() {
             this.timer = setInterval(() => this.allTime++, 1000)
         },
-        timerStop() {
+        timerStop(cardId, keyOption) {
             clearTimeout(this.timer)
+            this.$store.commit('sections/addOptionElectrical', { val: this.allTime, id: cardId, key: keyOption })
         },
     },
 }

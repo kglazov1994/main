@@ -133,6 +133,8 @@ export default {
                 description: '',
                 subtasks: [],
                 comments: [],
+                currentTime: '',
+                allTime: '',
             }
             if (this.idpage === 'electrical') {
                 this.$store.commit('sections/setCardElectrical', card)
