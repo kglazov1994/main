@@ -2,7 +2,13 @@
     <div v-if="cr.sectionId === sections.id" class="card">
         <div v-if="cr.name" class="card__header flex">
             <div class="card__header-name flex">
-                <svg-icon class="card__check" name="check" width="15" height="15" />
+                <svg-icon
+                    class="card__check"
+                    :name="cr.sectionId === 'electrical3' ? 'check-complete' : 'check'"
+                    width="15"
+                    height="15"
+                    @click="complete()"
+                />
                 <div class="card__name">{{ cr.name }}</div>
             </div>
             <svg-icon name="burger-small" width="34" height="34" @click="isModalCall = true" />
@@ -52,13 +58,31 @@
                         <div>{{ cr.subtasks.length }}</div>
                         <svg-icon name="task" width="13" height="12" />
                     </div>
+                    <div
+                        class="card__timer"
+                        :class="cr.sectionId === 'electrical3' ? 'disabled' : ''"
+                        @click=";(start = !start), start ? timerStart() : timerStop(cr.cardId, 'allTime')"
+                    >
+                        <svg-icon :name="start ? 'pause' : 'play'" width="18" height="18" />
+                    </div>
                 </div>
             </div>
         </div>
         <div v-if="cr.subtasks.length && tasks" class="card__subtasks-list">
-            <div v-for="(subtask, i) in cr.subtasks" :key="i" class="card__subtasks-item flex-c">
-                <svg-icon class="card__check" name="check" width="15" height="15" />
-                <div>{{ subtask }}</div>
+            <div
+                v-for="(subtask, i) in cr.subtasks"
+                :key="i"
+                class="card__subtasks-item flex-c"
+                :class="subtask.complete === 1 ? 'complete' : ''"
+                @click="subtaskComplete(subtask.value, cr.cardId)"
+            >
+                <svg-icon
+                    class="card__check"
+                    :name="subtask.complete === 1 ? 'check-complete' : 'check'"
+                    width="15"
+                    height="15"
+                />
+                <div>{{ subtask.value }}</div>
             </div>
             <div v-if="subtasksCard" class="card__subtasks-item flex-c">
                 <svg-icon class="card__check" name="check" width="15" height="15" />
@@ -76,17 +100,19 @@
         <UiModal v-model="isModalCall" class="call-order" :open="isModalCall" position="top right">
             <div class="modal-card">
                 <div class="modal-card__header flex-c">
-                    <div class="modal-card__header-left flex-c">
+                    <div
+                        class="modal-card__header-left flex-c"
+                        :class="cr.sectionId === 'electrical3' ? 'disabled' : ''"
+                    >
                         <div
                             class="modal-card__work"
                             @click=";(start = !start), start ? timerStart() : timerStop(cr.cardId, 'allTime')"
                         >
                             <svg-icon :name="start ? 'pause' : 'play'" width="18" height="18" />
-                            <!-- <svg-icon name="pause" width="18" height="18" /> -->
                             <div v-if="start">В работе</div>
                             <div v-else>Работать над задачей</div>
                         </div>
-                        <div class="">
+                        <div>
                             <span v-if="Math.trunc((allTime / 60 / 60) % 60) < 10">0</span
                             >{{ Math.trunc((allTime / 60 / 60) % 60) }}:<span
                                 v-if="Math.trunc((allTime / 60) % 60) < 10"
@@ -191,10 +217,21 @@
                     </div>
 
                     <div v-if="cr.subtasks.length" class="modal-card__subtasks-list">
-                        <div v-for="(subtask, i) in cr.subtasks" :key="i" class="modal-card__subtasks-item flex-c">
+                        <div
+                            v-for="(subtask, i) in cr.subtasks"
+                            :key="i"
+                            class="modal-card__subtasks-item flex-c"
+                            :class="subtask.complete === 1 ? 'complete' : ''"
+                            @click="subtaskComplete(subtask.value, cr.cardId)"
+                        >
                             <div class="left flex-c">
-                                <svg-icon class="card__check" name="check" width="15" height="15" />
-                                <div>{{ subtask }}</div>
+                                <svg-icon
+                                    class="card__check"
+                                    :name="subtask.complete === 1 ? 'check-complete' : 'check'"
+                                    width="15"
+                                    height="15"
+                                />
+                                <div>{{ subtask.value }}</div>
                             </div>
                             <div class="right flex-c">
                                 <svg-icon name="date" width="28" height="28" />
@@ -401,6 +438,9 @@ export default {
         timerStop(cardId, keyOption) {
             clearTimeout(this.timer)
             this.$store.commit('sections/addOptionElectrical', { val: this.allTime, id: cardId, key: keyOption })
+        },
+        subtaskComplete(value, cardId) {
+            this.$store.commit('sections/subtaskComplete', { val: value, id: cardId })
         },
     },
 }

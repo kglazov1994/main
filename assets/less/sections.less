@@ -42,8 +42,10 @@
     box-shadow: 0 2px 4px rgba(21, 27, 38, 0.2);
     border-radius: 10px;
     margin-bottom: 15px;
-    cursor: pointer;
     transition: 0.3s all;
+    svg{
+        cursor: pointer;
+    }
     &:hover{
         box-shadow: 2px 4px 8px rgba(21, 27, 38, 0.2);
     }
@@ -97,6 +99,7 @@
         width: 100%;
     }
     &__subtasks{
+        cursor: pointer;
         &-list{
             margin-top: 20px;
         }
@@ -291,6 +294,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        cursor: pointer;
     }
     &__complete{
         width: 199px;
@@ -308,6 +312,7 @@
         align-items: center;
         justify-content: center;
         gap:10px;
+        cursor: pointer;
         &--end{
             pointer-events: none;
             opacity: 0.6;
@@ -352,4 +357,11 @@
 }
 .red{
     color: red;
+}
+.disabled{
+    pointer-events: none;
+    opacity: 0.7;
+}
+.complete{
+    opacity: 0.7;
 }

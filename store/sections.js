@@ -83,7 +83,24 @@ export const mutations = {
         state.electrical.forEach((section) => {
             section.cards.forEach((card) => {
                 if (card.cardId === payload.id) {
-                    card.subtasks.push(payload.val)
+                    card.subtasks.push({ value: payload.val, complete: 0 })
+                }
+            })
+        })
+    },
+    subtaskComplete(state, payload) {
+        state.electrical.forEach((section) => {
+            section.cards.forEach((card) => {
+                if (card.cardId === payload.id) {
+                    card.subtasks.forEach((subtask) => {
+                        if (subtask.value === payload.val) {
+                            if (subtask.complete === 0) {
+                                subtask.complete = 1
+                            } else {
+                                subtask.complete = 0
+                            }
+                        }
+                    })
                 }
             })
         })
