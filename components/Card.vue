@@ -77,9 +77,16 @@
             <div class="modal-card">
                 <div class="modal-card__header flex-c">
                     <div class="modal-card__header-left">
-                        <div class="modal-card__work">
-                            <svg-icon name="play" width="18" height="18" />
-                            <div class="">Работать над задачей</div>
+                        <div class="modal-card__work" @click=";(start = !start), start ? timerStart() : timerStop()">
+                            <svg-icon :name="start ? 'pause' : 'play'" width="18" height="18" />
+                            <!-- <svg-icon name="pause" width="18" height="18" /> -->
+                            <div v-if="start">В работе</div>
+                            <div v-else>Работать над задачей</div>
+                        </div>
+                        <div class="">
+                            {{ Math.trunc((allTime / 60 / 60) % 60) }}:{{ Math.trunc((allTime / 60) % 60) }}:{{
+                                allTime % 60
+                            }}
                         </div>
                     </div>
                     <div class="modal-card__header-right">
@@ -300,6 +307,9 @@ export default {
             subtasksCard: false,
             tasks: false,
             taskName: '',
+            allTime: 0 * 60,
+            start: false,
+            timer: null,
             executors: [
                 {
                     name: 'Вадим',
@@ -374,6 +384,12 @@ export default {
         },
         complete() {
             this.$store.commit('sections/complete', this.cr)
+        },
+        timerStart() {
+            this.timer = setInterval(() => this.allTime++, 1000)
+        },
+        timerStop() {
+            clearTimeout(this.timer)
         },
     },
 }
