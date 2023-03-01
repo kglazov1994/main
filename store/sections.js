@@ -1,33 +1,69 @@
 export const state = () => ({
-    electrical: [
-        {
-            name: 'Нужно сделать',
-            cards: [],
-            id: 'electrical0',
-        },
-        {
-            name: 'В работе',
-            cards: [],
-            id: 'electrical1',
-        },
-        {
-            name: 'Сделано',
-            cards: [],
-            id: 'electrical2',
-        },
-        {
-            name: 'Завершено',
-            cards: [],
-            id: 'electrical3',
-        },
-    ],
-    dishes: [],
+    pages: {
+        electrical: [
+            {
+                name: 'Нужно сделать',
+                cards: [],
+                id: 'electrical0',
+                pageName: 'electrical',
+            },
+            {
+                name: 'В работе',
+                cards: [],
+                id: 'electrical1',
+                pageName: 'electrical',
+            },
+            {
+                name: 'Сделано',
+                cards: [],
+                id: 'electrical2',
+                pageName: 'electrical',
+            },
+            {
+                name: 'Завершено',
+                cards: [],
+                id: 'electrical3',
+                pageName: 'electrical',
+            },
+        ],
+        dishes: [
+            {
+                name: 'Нужно сделать ПОСУДА',
+                cards: [],
+                id: 'dishes0',
+                pageName: 'dishes',
+            },
+            {
+                name: 'В работе',
+                cards: [],
+                id: 'dishes1',
+                pageName: 'dishes',
+            },
+            {
+                name: 'Сделано',
+                cards: [],
+                id: 'dishes2',
+                pageName: 'dishes',
+            },
+            {
+                name: 'Завершено',
+                cards: [],
+                id: 'dishes3',
+                pageName: 'dishes',
+            },
+        ],
+    },
 })
 export const mutations = {
+    test(state) {
+        for (const key in state.pages) {
+            console.log(state.pages[key])
+        }
+    },
     complete(state, payload) {
         payload.id = 'celectrical3'
         payload.sectionId = 'electrical3'
-        state.electrical.forEach((section) => {
+        state.pages.electrical.forEach((section) => {
             if (section.id === payload.sectionId) {
                 section.cards.push(payload)
             }
@@ -40,90 +76,96 @@ export const mutations = {
         })
     },
     // Электротовары
-    setElectrical(state, payload) {
-        state.electrical.push(payload)
-    },
-    setCardElectrical(state, payload) {
-        state.electrical.forEach((section) => {
-            if (section.id === payload.sectionId) {
-                section.cards.push(payload)
+    setSection(state, payload) {
+        for (const key in state.pages) {
+            if (key === payload.pageName) {
+                state.pages[key].push(payload.val)
             }
-        })
+        }
     },
-    addNameElectrical(state, payload) {
-        state.electrical.forEach((section) => {
-            if (section.id === payload.id) {
-                section.name = payload.name
-            }
-        })
-    },
-    addOptionElectrical(state, payload) {
-        state.electrical.forEach((section) => {
-            section.cards.forEach((card) => {
-                for (const key in card) {
-                    if (key === payload.key) {
-                        if (card.cardId === payload.id) {
-                            card[key] = payload.val
-                        }
-                    }
+    setCardSection(state, payload) {
+        for (const key in state.pages) {
+            state.pages[key].forEach((section) => {
+                if (section.id === payload.sectionId) {
+                    section.cards.push(payload)
                 }
             })
-        })
+        }
     },
-    addDeadlineCardElectrical(state, payload) {
-        state.electrical.forEach((section) => {
-            section.cards.forEach((card) => {
-                if (card.cardId === payload.id) {
-                    card.deadline = payload.val
+    addNameSection(state, payload) {
+        for (const key in state.pages) {
+            state.pages[key].forEach((section) => {
+                if (section.id === payload.id) {
+                    section.name = payload.name
                 }
             })
-        })
+        }
     },
-    addSubtaskCardElectrical(state, payload) {
-        state.electrical.forEach((section) => {
-            section.cards.forEach((card) => {
-                if (card.cardId === payload.id) {
-                    card.subtasks.push({ value: payload.val, complete: 0 })
-                }
-            })
-        })
-    },
-    subtaskComplete(state, payload) {
-        state.electrical.forEach((section) => {
-            section.cards.forEach((card) => {
-                if (card.cardId === payload.id) {
-                    card.subtasks.forEach((subtask) => {
-                        if (subtask.value === payload.val) {
-                            if (subtask.complete === 0) {
-                                subtask.complete = 1
-                            } else {
-                                subtask.complete = 0
+    addOptionCard(state, payload) {
+        for (const key in state.pages) {
+            state.pages[key].forEach((section) => {
+                section.cards.forEach((card) => {
+                    for (const keyCard in card) {
+                        if (keyCard === payload.key) {
+                            if (card.cardId === payload.id) {
+                                card[keyCard] = payload.val
                             }
                         }
-                    })
-                }
+                    }
+                })
             })
-        })
+        }
     },
-    addCommentCardElectrical(state, payload) {
-        state.electrical.forEach((section) => {
-            section.cards.forEach((card) => {
-                if (card.cardId === payload.id) {
-                    card.comments.push({ comment: payload.val, time: payload.time })
-                }
+    addDeadlineCard(state, payload) {
+        for (const key in state.pages) {
+            state.pages[key].forEach((section) => {
+                section.cards.forEach((card) => {
+                    if (card.cardId === payload.id) {
+                        card.deadline = payload.val
+                    }
+                })
             })
-        })
+        }
     },
-
-    // Посуда-Сити
-    setDishes(state, payload) {
-        state.dishes.push(payload)
+    addSubtaskCard(state, payload) {
+        for (const key in state.pages) {
+            state.pages[key].forEach((section) => {
+                section.cards.forEach((card) => {
+                    if (card.cardId === payload.id) {
+                        card.subtasks.push({ value: payload.val, complete: 0 })
+                    }
+                })
+            })
+        }
     },
-    setCardDishes(state, payload) {
-        state.dishes.forEach((section) => {
-            if (section.id === payload.sectionId) {
-                section.cards.push(payload)
-            }
-        })
+    subtaskComplete(state, payload) {
+        for (const key in state.pages) {
+            state.pages[key].forEach((section) => {
+                section.cards.forEach((card) => {
+                    if (card.cardId === payload.id) {
+                        card.subtasks.forEach((subtask) => {
+                            if (subtask.value === payload.val) {
+                                if (subtask.complete === 0) {
+                                    subtask.complete = 1
+                                } else {
+                                    subtask.complete = 0
+                                }
+                            }
+                        })
+                    }
+                })
+            })
+        }
+    },
+    addCommentCard(state, payload) {
+        for (const key in state.pages) {
+            state.pages[key].forEach((section) => {
+                section.cards.forEach((card) => {
+                    if (card.cardId === payload.id) {
+                        card.comments.push({ comment: payload.val, time: payload.time })
+                    }
+                })
+            })
+        }
     },
 }

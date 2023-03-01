@@ -403,30 +403,22 @@ export default {
 
         optionsCard(id, cardId, keyOption) {
             const value = document.getElementById(id).value
-            if (this.idpage === 'electrical') {
-                this.$store.commit('sections/addOptionElectrical', { val: value, id: cardId, key: keyOption })
-            }
+            this.$store.commit('sections/addOptionCard', { val: value, id: cardId, key: keyOption })
         },
         deadlineCard(id, cardId) {
             const deadline = document.getElementById(id).value.split('.').reverse().join('-')
-            if (this.idpage === 'electrical') {
-                this.$store.commit('sections/addDeadlineCardElectrical', { val: deadline, id: cardId })
-            }
+            this.$store.commit('sections/addDeadlineCard', { val: deadline, id: cardId })
         },
         addSubtask(id, cardId) {
             const subtask = document.getElementById(id).value
-            if (this.idpage === 'electrical') {
-                this.$store.commit('sections/addSubtaskCardElectrical', { val: subtask, id: cardId })
-            }
+            this.$store.commit('sections/addSubtaskCard', { val: subtask, id: cardId })
             this.subtasks = false
             this.subtasksCard = false
         },
         addComment(id, cardId) {
             const comment = document.getElementById(id).value
             const date = new Date()
-            if (this.idpage === 'electrical') {
-                this.$store.commit('sections/addCommentCardElectrical', { val: comment, id: cardId, time: date })
-            }
+            this.$store.commit('sections/addCommentCard', { val: comment, id: cardId, time: date })
             document.getElementById(id).value = ''
         },
         complete() {

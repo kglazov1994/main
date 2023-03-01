@@ -3,6 +3,6 @@ import createPersistedState from 'vuex-persistedstate'
 export default ({ store }) => {
     createPersistedState({
         key: 'kanban',
-        paths: ['sections.electrical', 'sections.cardsElectrical', 'sections.dishes', 'sections.cardsDishes'],
+        paths: ['sections.pages'],
     })(store)
 }
