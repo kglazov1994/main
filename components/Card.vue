@@ -25,7 +25,6 @@
                 />
                 <div v-if="taskName !== ''" class="btn" @click="optionsCard('name-' + cr.id, cr.cardId, 'name')">+</div>
             </div>
-            <!-- <svg-icon name="burger-small" width="34" height="34" @click="isModalCall = true" /> -->
         </div>
         <div class="card__info flex-c">
             <div class="card__left">
@@ -120,7 +119,7 @@
                             >{{ Math.trunc((allTime / 60) % 60) }}ч. / 10ч.
                         </div>
                     </div>
-                    <div class="modal-card__header-right">
+                    <div class="modal-card__header-right flex-c">
                         <div
                             v-if="cr.sectionId === 'electrical3'"
                             class="modal-card__complete modal-card__complete--end"
@@ -131,6 +130,8 @@
                             <svg-icon name="complete" width="18" height="18" />
                             <div class="">Завершить задачу</div>
                         </div>
+                        <svg-icon class="modal-card__complete-icon" name="copy" width="30" height="30" />
+                        <svg-icon name="collapse" width="30" height="30" @click="isModalCall = false" />
                     </div>
                 </div>
                 <div v-if="cr.name" class="modal-card__name">{{ cr.name }}</div>
@@ -240,8 +241,10 @@
                         </div>
                     </div>
                     <div v-if="subtasks" class="modal-card__subtasks-item flex-c">
-                        <svg-icon class="card__check" name="check" width="15" height="15" />
-                        <input :id="'subtask-' + cr.id" type="text" placeholder="Подзадача" />
+                        <div class="left flex-c">
+                            <svg-icon class="card__check" name="check" width="15" height="15" />
+                            <input :id="'subtask-' + cr.id" type="text" placeholder="Подзадача" />
+                        </div>
                         <div class="btn" @click="addSubtask('subtask-' + cr.id, cr.cardId)">
                             <svg-icon class="plus" name="plus" width="18" height="18" />
                             <div>Добавить</div>
@@ -403,22 +406,25 @@ export default {
 
         optionsCard(id, cardId, keyOption) {
             const value = document.getElementById(id).value
-            this.$store.commit('sections/addOptionCard', { val: value, id: cardId, key: keyOption })
+            this.$store.commit('sections/addOptionsCard', { val: value, id: cardId, key: keyOption })
         },
-        deadlineCard(id, cardId) {
-            const deadline = document.getElementById(id).value.split('.').reverse().join('-')
-            this.$store.commit('sections/addDeadlineCard', { val: deadline, id: cardId })
+        subtaskComplete(value, cardId) {
+            this.$store.commit('sections/addOptionsCard', { valSubtaskComplete: value, id: cardId })
         },
         addSubtask(id, cardId) {
             const subtask = document.getElementById(id).value
-            this.$store.commit('sections/addSubtaskCard', { val: subtask, id: cardId })
+            this.$store.commit('sections/addOptionsCard', { valSubtask: subtask, id: cardId })
             this.subtasks = false
             this.subtasksCard = false
+        },
+        deadlineCard(id, cardId) {
+            const deadline = document.getElementById(id).value.split('.').reverse().join('-')
+            this.$store.commit('sections/addOptionsCard', { valDeadline: deadline, id: cardId })
         },
         addComment(id, cardId) {
             const comment = document.getElementById(id).value
             const date = new Date()
-            this.$store.commit('sections/addCommentCard', { val: comment, id: cardId, time: date })
+            this.$store.commit('sections/addOptionsCard', { valComment: comment, id: cardId, time: date })
             document.getElementById(id).value = ''
         },
         complete() {
@@ -430,9 +436,6 @@ export default {
         timerStop(cardId, keyOption) {
             clearTimeout(this.timer)
             this.$store.commit('sections/addOptionElectrical', { val: this.allTime, id: cardId, key: keyOption })
-        },
-        subtaskComplete(value, cardId) {
-            this.$store.commit('sections/subtaskComplete', { val: value, id: cardId })
         },
     },
 }

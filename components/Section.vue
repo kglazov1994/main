@@ -41,7 +41,7 @@ export default {
             if (this.sectionName !== null) {
                 this.name = true
             }
-            this.$store.commit('sections/addNameSection', { id: this.sections.id, name: this.sectionName })
+            this.$store.commit('sections/addOptionsSection', { id: this.sections.id, sectionName: this.sectionName })
         },
         addCard(id) {
             const card = {
@@ -58,7 +58,7 @@ export default {
                 currentTime: '',
                 allTime: '',
             }
-            this.$store.commit('sections/setCardSection', card)
+            this.$store.commit('sections/addOptionsSection', card)
         },
     },
 }

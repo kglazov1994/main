@@ -1,6 +1,6 @@
 <template>
     <div class="page">
-        <h2 class="page__title">Посуда-Сити</h2>
+        <div class="page__header">Последняя задача выполнена 10 марта</div>
         <Page :idpage="idPage" />
     </div>
 </template>
