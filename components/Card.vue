@@ -35,18 +35,27 @@
                 <svg-icon v-else class="card__userpic" name="user" width="30" height="30" />
             </div>
             <div class="card__right flex-c">
-                <div class="card__data-time">
-                    <div v-if="cr.deadline">
-                        до
-                        <span :class="new Date(cr.deadline) < new Date() ? 'red' : ''">
-                            {{
-                                new Intl.DateTimeFormat('ru', { month: 'long', day: 'numeric' }).format(
-                                    new Date(cr.deadline)
-                                )
-                            }}
-                        </span>
+                <div class="card__times">
+                    <div class="card__timer">
+                        <span v-if="Math.trunc((allTime / 60 / 60) % 60) < 10">0</span
+                        >{{ Math.trunc((allTime / 60 / 60) % 60) }}:<span v-if="Math.trunc((allTime / 60) % 60) < 10"
+                            >0</span
+                        >{{ Math.trunc((allTime / 60) % 60) }}ч. / 10ч.
+                    </div>
+                    <div class="card__data-time">
+                        <div v-if="cr.deadline">
+                            до
+                            <span :class="new Date(cr.deadline) < new Date() ? 'red' : ''">
+                                {{
+                                    new Intl.DateTimeFormat('ru', { month: 'long', day: 'numeric' }).format(
+                                        new Date(cr.deadline)
+                                    )
+                                }}
+                            </span>
+                        </div>
                     </div>
                 </div>
+
                 <div class="card__subtasks flex-c">
                     <div
                         v-if="cr.subtasks.length"

@@ -6,7 +6,14 @@
                 <input v-model="sectionName" type="text" Placeholder="Название раздела" class="section__input" />
                 <div class="btn" @click="nameAdd()">Назвать</div>
             </div>
-            <div class="section__addcards" @click="addCard(sections.id)">+</div>
+            <div class="section__options flex-c">
+                <div class="section__addcards" @click="addCard(sections.id)">
+                    <svg-icon name="plusSm" width="15" height="15" />
+                </div>
+                <div class="section__addcards">
+                    <svg-icon name="dotLine" width="11" height="11" />
+                </div>
+            </div>
         </div>
         <div v-for="(cr, i) in sections.cards" :key="i" class="cards">
             <Card :cr="cr" :sections="sections" :idpage="idpage" />

@@ -55,6 +55,7 @@ export const state = () => ({
     },
 })
 export const mutations = {
+    // complete пока только для страницы электротоваров
     complete(state, payload) {
         payload.id = 'celectrical3'
         payload.sectionId = 'electrical3'
