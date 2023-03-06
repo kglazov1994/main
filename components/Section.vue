@@ -15,8 +15,10 @@
                 </div>
             </div>
         </div>
-        <div v-for="(cr, i) in sections.cards" :key="i" class="cards">
-            <Card :cr="cr" :sections="sections" :idpage="idpage" />
+        <div class="cards-section" @drop.prevent @dragenter.prevent @dragover.prevent>
+            <div v-for="(cr, i) in sections.cards" :key="i" class="cards">
+                <Card :cr="cr" :sections="sections" :idpage="idpage" />
+            </div>
         </div>
     </div>
 </template>

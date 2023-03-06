@@ -1,5 +1,12 @@
 <template>
-    <div v-if="cr.sectionId === sections.id" class="card">
+    <div
+        v-if="cr.sectionId === sections.id"
+        draggable="true"
+        class="card"
+        :class="dragstartCard ? 'dragprocess' : ''"
+        @dragstart="dragStart()"
+        @dragend="dragEnd()"
+    >
         <div v-if="cr.name" class="card__header flex">
             <div class="card__header-name flex">
                 <svg-icon
@@ -364,6 +371,7 @@ export default {
             allTime: 0 * 60,
             start: false,
             timer: null,
+            dragstartCard: false,
             executors: [
                 {
                     name: 'Вадим',
@@ -403,6 +411,12 @@ export default {
         }
     },
     methods: {
+        dragStart() {
+            this.dragstartCard = true
+        },
+        dragEnd() {
+            this.dragstartCard = false
+        },
         onAccept(e) {
             const maskRef = e.detail
             this.value = maskRef.value

@@ -35,6 +35,25 @@
                         <nuxt-link to="/" class="sitebar__favorites-link">Автошкола “Автолицей”</nuxt-link>
                     </div>
                 </div>
+                <div class="sitebar__open flex-c">
+                    <div>Раскрыть весь список</div>
+                    <svg-icon name="arrow" width="10" height="10" />
+                </div>
+                <div class="sitebar__title">Команды</div>
+                <div class="sitebar__teams">
+                    <div class="sitebar__team flex-c">
+                        <svg-icon name="team" width="10" height="10" />
+                        <div>Программисты</div>
+                    </div>
+                    <div class="sitebar__team flex-c">
+                        <svg-icon name="team" width="10" height="10" />
+                        <div>Маркетологи</div>
+                    </div>
+                    <div class="sitebar__team flex-c">
+                        <svg-icon name="team" width="10" height="10" />
+                        <div>Дизайнеры</div>
+                    </div>
+                </div>
             </div>
             <div class="wrapper">
                 <Header />
