@@ -4,8 +4,8 @@
         draggable="true"
         class="card"
         :class="dragstartCard ? 'dragprocess' : ''"
-        @dragstart="dragStart()"
-        @dragend="dragEnd()"
+        @dragstart="dragStart(cr.cardId)"
+        @dragend="dragEnd(cr.cardId)"
     >
         <div v-if="cr.name" class="card__header flex">
             <div class="card__header-name flex">
@@ -17,6 +17,7 @@
                     @click="complete()"
                 />
                 <div class="card__name">{{ cr.name }}</div>
+                {{ page }}
             </div>
             <svg-icon name="burger-small" width="34" height="34" @click="isModalCall = true" />
         </div>
@@ -349,7 +350,7 @@ export default {
             type: Object,
             required: true,
         },
-        idpage: {
+        page: {
             type: String,
             required: true,
         },
@@ -411,11 +412,13 @@ export default {
         }
     },
     methods: {
-        dragStart() {
+        dragStart(cardId) {
             this.dragstartCard = true
+            this.$store.commit('sections/addOptionsCard', { valDrag: 'start', id: cardId })
         },
-        dragEnd() {
+        dragEnd(cardId) {
             this.dragstartCard = false
+            this.$store.commit('sections/addOptionsCard', { valDrag: 'end', id: cardId })
         },
         onAccept(e) {
             const maskRef = e.detail
@@ -451,7 +454,7 @@ export default {
             document.getElementById(id).value = ''
         },
         complete() {
-            this.$store.commit('sections/complete', this.cr)
+            this.$store.commit('sections/complete', { card: this.cr, page: this.page })
         },
         timerStart() {
             this.timer = setInterval(() => this.allTime++, 1000)

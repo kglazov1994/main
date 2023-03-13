@@ -52,24 +52,58 @@ export const state = () => ({
                 pageName: 'dishes',
             },
         ],
+        forest: [
+            {
+                name: 'Нужно сделать ЛесХозСнаб',
+                cards: [],
+                id: 'forest0',
+                pageName: 'forest',
+            },
+            {
+                name: 'В работе',
+                cards: [],
+                id: 'forest1',
+                pageName: 'forest',
+            },
+            {
+                name: 'Сделано',
+                cards: [],
+                id: 'forest2',
+                pageName: 'forest',
+            },
+            {
+                name: 'Завершено',
+                cards: [],
+                id: 'forest3',
+                pageName: 'forest',
+            },
+        ],
     },
 })
 export const mutations = {
     // complete пока только для страницы электротоваров
     complete(state, payload) {
-        payload.id = 'celectrical3'
-        payload.sectionId = 'electrical3'
-        state.pages.electrical.forEach((section) => {
-            if (section.id === payload.sectionId) {
-                section.cards.push(payload)
-            }
-            if (section.id !== payload.sectionId) {
-                const index = section.cards.findIndex((n) => n.sectionId === payload.sectionId)
-                if (index !== -1) {
-                    section.cards.splice(index, 1)
+        for (const key in state.pages) {
+            state.pages[key].forEach((section) => {
+                if (section.id === payload.page + '3') {
+                    payload.card.id = 'c' + section.id
+                    payload.card.sectionId = section.id
                 }
-            }
-        })
+            })
+        }
+        for (const key in state.pages) {
+            state.pages[key].forEach((section) => {
+                if (section.id === payload.card.sectionId) {
+                    section.cards.push(payload.card)
+                }
+                if (section.id !== payload.card.sectionId) {
+                    const index = section.cards.findIndex((n) => n.sectionId === payload.card.sectionId)
+                    if (index !== -1) {
+                        section.cards.splice(index, 1)
+                    }
+                }
+            })
+        }
     },
     setSection(state, payload) {
         for (const key in state.pages) {
@@ -128,8 +162,39 @@ export const mutations = {
                                 }
                             })
                         }
+                        if (payload.valDrag === 'start') {
+                            card.dragprocess = true
+                        }
+                        if (payload.valDrag === 'end') {
+                            card.dragprocess = false
+                        }
                     }
                 })
+            })
+        }
+    },
+    drop(state, payload) {
+        let newCard = {}
+        for (const key in state.pages) {
+            state.pages[key].forEach((section) => {
+                section.cards.forEach((card) => {
+                    if (card.dragprocess === true) {
+                        card.id = 'c' + payload
+                        card.sectionId = payload
+                        newCard = card
+                    }
+                })
+            })
+            state.pages[key].forEach((sec) => {
+                if (sec.id === payload) {
+                    sec.cards.push(newCard)
+                }
+                if (sec.id !== payload) {
+                    const index = sec.cards.findIndex((n) => n.sectionId === payload)
+                    if (index !== -1) {
+                        sec.cards.splice(index, 1)
+                    }
+                }
             })
         }
     },

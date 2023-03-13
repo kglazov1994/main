@@ -1,5 +1,6 @@
 <template lang="">
     <div class="section">
+        {{ idpage }}
         <div class="section__header flex">
             <div v-if="sections.name !== ''" class="section__title">{{ sections.name }}</div>
             <div v-else class="flex">
@@ -15,9 +16,9 @@
                 </div>
             </div>
         </div>
-        <div class="cards-section" @drop.prevent @dragenter.prevent @dragover.prevent>
+        <div class="cards-section" @drop.prevent="drop()" @dragenter.prevent @dragover.prevent>
             <div v-for="(cr, i) in sections.cards" :key="i" class="cards">
-                <Card :cr="cr" :sections="sections" :idpage="idpage" />
+                <Card :cr="cr" :sections="sections" :page="idpage" />
             </div>
         </div>
     </div>
@@ -46,6 +47,9 @@ export default {
         }
     },
     methods: {
+        drop() {
+            this.$store.commit('sections/drop', this.sections.id)
+        },
         nameAdd() {
             if (this.sectionName !== null) {
                 this.name = true
@@ -66,6 +70,7 @@ export default {
                 comments: [],
                 currentTime: '',
                 allTime: '',
+                dragprocess: false,
             }
             this.$store.commit('sections/addOptionsSection', card)
         },
