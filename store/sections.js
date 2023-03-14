@@ -178,24 +178,26 @@ export const mutations = {
         for (const key in state.pages) {
             state.pages[key].forEach((section) => {
                 section.cards.forEach((card) => {
-                    if (card.dragprocess === true) {
+                    if (card.dragprocess === true && card.sectionId !== payload) {
                         card.id = 'c' + payload
                         card.sectionId = payload
                         newCard = card
                     }
                 })
             })
-            state.pages[key].forEach((sec) => {
-                if (sec.id === payload) {
-                    sec.cards.push(newCard)
-                }
-                if (sec.id !== payload) {
-                    const index = sec.cards.findIndex((n) => n.sectionId === payload)
-                    if (index !== -1) {
-                        sec.cards.splice(index, 1)
+            if (newCard !== {}) {
+                state.pages[key].forEach((sec) => {
+                    if (sec.id === payload) {
+                        sec.cards.push(newCard)
                     }
-                }
-            })
+                    if (sec.id !== payload) {
+                        const index = sec.cards.findIndex((n) => n.sectionId === payload)
+                        if (index !== -1) {
+                            sec.cards.splice(index, 1)
+                        }
+                    }
+                })
+            }
         }
     },
 }
