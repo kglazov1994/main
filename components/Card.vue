@@ -17,7 +17,6 @@
                     @click="complete()"
                 />
                 <div class="card__name">{{ cr.name }}</div>
-                {{ page }}
             </div>
             <svg-icon name="burger-small" width="34" height="34" @click="isModalCall = true" />
         </div>

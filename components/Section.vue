@@ -1,6 +1,5 @@
 <template lang="">
     <div class="section">
-        {{ idpage }}
         <div class="section__header flex">
             <div v-if="sections.name !== ''" class="section__title">{{ sections.name }}</div>
             <div v-else class="flex">

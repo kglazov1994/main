@@ -56,7 +56,7 @@
                 </div>
             </div>
             <div class="wrapper">
-                <Header />
+                <!-- <Header /> -->
                 <main class="site__content">
                     <Nuxt />
                 </main>

@@ -28,7 +28,7 @@ export const state = () => ({
         ],
         dishes: [
             {
-                name: 'Нужно сделать ПОСУДА',
+                name: 'Нужно сделать',
                 cards: [],
                 id: 'dishes0',
                 pageName: 'dishes',
@@ -54,7 +54,7 @@ export const state = () => ({
         ],
         forest: [
             {
-                name: 'Нужно сделать ЛесХозСнаб',
+                name: 'Нужно сделать',
                 cards: [],
                 id: 'forest0',
                 pageName: 'forest',

@@ -2,7 +2,7 @@
     <header class="header flex-c">
         <div class="header__left">
             <div class="header__up flex-c">
-                <div class="header__page">Электротовары</div>
+                <div class="header__page">{{ namepage }}</div>
                 <div class="header__work">В работе</div>
             </div>
             <div class="header__down">
@@ -27,18 +27,12 @@
     </header>
 </template>
 <script>
-import { mapState } from 'vuex'
 export default {
     name: 'Header',
-    computed: {
-        ...mapState('sections', ['pages']),
-        pageName() {
-            let name = ''
-            for (const key in this.pages) {
-                console.log(key)
-                name = key
-            }
-            return name
+    props: {
+        namepage: {
+            type: String,
+            required: true,
         },
     },
 }
