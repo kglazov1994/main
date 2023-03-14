@@ -24,8 +24,8 @@ export default {
     name: 'Index',
     data() {
         return {
-            idPage: 'electrical',
-            namePage: 'Электротовары',
+            idPage: 'car',
+            namePage: 'Автошкола “Автолицей”',
         }
     },
 }

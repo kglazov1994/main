@@ -32,7 +32,7 @@
                         <nuxt-link to="/dishes" class="sitebar__favorites-link">Посуда-Сити</nuxt-link>
                     </div>
                     <div class="sitebar__favorites-item sitebar__favorites-item--last">
-                        <nuxt-link to="/" class="sitebar__favorites-link">Автошкола “Автолицей”</nuxt-link>
+                        <nuxt-link to="/car" class="sitebar__favorites-link">Автошкола “Автолицей”</nuxt-link>
                     </div>
                 </div>
                 <div class="sitebar__open flex-c">

@@ -78,6 +78,32 @@ export const state = () => ({
                 pageName: 'forest',
             },
         ],
+        car: [
+            {
+                name: 'Нужно сделать',
+                cards: [],
+                id: 'car0',
+                pageName: 'car',
+            },
+            {
+                name: 'В работе',
+                cards: [],
+                id: 'car1',
+                pageName: 'car',
+            },
+            {
+                name: 'Сделано',
+                cards: [],
+                id: 'car2',
+                pageName: 'car',
+            },
+            {
+                name: 'Завершено',
+                cards: [],
+                id: 'car3',
+                pageName: 'car',
+            },
+        ],
     },
 })
 export const mutations = {

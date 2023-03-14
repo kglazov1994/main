@@ -11,7 +11,7 @@
             <div class="card__header-name flex">
                 <svg-icon
                     class="card__check"
-                    :name="cr.sectionId === 'electrical3' ? 'check-complete' : 'check'"
+                    :name="cr.sectionId === page + '3' ? 'check-complete' : 'check'"
                     width="15"
                     height="15"
                     @click="complete()"
