@@ -443,8 +443,18 @@ export default {
             this.subtasksCard = false
         },
         deadlineCard(id, cardId) {
-            const deadline = document.getElementById(id).value.split('.').reverse().join('-')
-            this.$store.commit('sections/addOptionsCard', { valDeadline: deadline, id: cardId })
+            const dateList = document.getElementById(id).value.split('.').reverse()
+            const date = new Date(dateList[0], dateList[1], dateList[2])
+            if (
+                date.getFullYear() === Number(dateList[0]) &&
+                date.getMonth() === Number(dateList[1]) &&
+                date.getDate() === Number(dateList[2])
+            ) {
+                const deadline = document.getElementById(id).value.split('.').reverse().join('-')
+                this.$store.commit('sections/addOptionsCard', { valDeadline: deadline, id: cardId })
+            } else {
+                alert('Дата некорректна')
+            }
         },
         addComment(id, cardId) {
             const comment = document.getElementById(id).value
